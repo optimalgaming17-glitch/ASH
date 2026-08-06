@@ -1,0 +1,159 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ASHMASTER.Master.cs" Inherits="iot.Site2" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Mater Page ASH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="DashBoard.css" rel="stylesheet" />
+    <link href="Loader.css" rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <div id="loader">
+
+            <lottie-player
+                src="https://assets2.lottiefiles.com/packages/lf20_2LdLki.json"
+                background="transparent"
+                speed="1"
+                style="width: 120px; height: 120px;"
+                loop
+                autoplay>
+            </lottie-player>
+
+            <p>SMARTNING YOUR HOME...</p>
+        </div>
+
+        <div>
+
+            <aside class="sidebar">
+
+                <div class="logo">
+
+                    <h2>ASH</h2>
+                    <p>INNOVATIES</p>
+
+                </div>
+
+                <ul>
+
+                    <li class="active">
+
+                        <i class="bi bi-grid-fill"></i>
+                        <a href="DashBoard.aspx" style="text-decoration: none"><span>DashBoard</span></a>
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-lightbulb-fill"></i>
+                        <a href="SmartBulb.aspx" style="text-decoration: none"><span>Smart Bulb</span></a>
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-thermometer-half"></i>
+                        <a href="Temperature.aspx" style="text-decoration: none"><span>Temperature</span></a>
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-cloud-haze2-fill"></i>
+                        <a href="Smoke.aspx" style="text-decoration: none"><span>Smoke</span></a>
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-person-walking"></i>
+                        <a href="Motion.aspx" style="text-decoration: none"><span>Motion</span></a>
+
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-bar-chart-fill"></i>
+                        <a href="Report.aspx" style="text-decoration: none"><span>Report</span></a>
+
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-robot"></i>
+                        <a href="AI.aspx" style="text-decoration: none"><span>AI Assistant</span></a>
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-gear-fill"></i>
+                        <a href="Setting.aspx" style="text-decoration: none"><span>Settings</span></a>
+
+
+                    </li>
+
+                    <li>
+
+                        <i class="bi bi-person-circle"></i>
+                        <a href="Profile.aspx" style="text-decoration: none"><span>Profile</span></a>
+
+
+                    </li>
+
+                </ul>
+
+            </aside>
+
+            <div class="main-content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+
+
+
+            <!-- ================= FOOTER ================= -->
+
+            <footer class="footer mt-5">
+
+                <p>
+                    © 2026 ASH INNOVATIES
+                        Smart Home Monitoring System
+                </p>
+
+            </footer>
+
+
+        </div>
+
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="DashBoard.js"></script>
+   
+    
+
+     <script>
+
+     window.onload = function () {
+         setTimeout(function () {
+             document.getElementById("loader").style.display = "none";
+         }, 1800);
+};
+
+     </script>
+
+
+</body>
+</html>

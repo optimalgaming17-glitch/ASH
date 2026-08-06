@@ -1,0 +1,540 @@
+﻿/* ===========================================
+        ASH INNOVATIES
+        MOTION DETECTION
+=========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins',sans-serif;
+    background: radial-gradient(circle at top left,#EEF4FF 0%,transparent 35%), radial-gradient(circle at bottom right,#ECFDF5 0%,transparent 30%), #F6F8FC;
+    overflow-x: hidden;
+    color: #1F2937;
+}
+
+.container-fluid {
+    max-width: 1450px;
+    margin: auto;
+}
+
+/* ===========================================
+        HERO
+=========================================== */
+
+.hero {
+    margin-bottom: 40px;
+}
+
+    .hero h1 {
+        font-size: 42px;
+        font-weight: 700;
+        background: linear-gradient(90deg,#4F7CFF,#35C759);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+        margin-top: 12px;
+        font-size: 16px;
+        color: #8A94A6;
+    }
+
+/* ===========================================
+        COMMON CARD
+=========================================== */
+
+.motion-card,
+.count-card,
+.security-card,
+.graph-card,
+.esp-card,
+.lastmotion-card,
+.alert-card {
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 35px;
+    border: 1px solid rgba(255,255,255,.8);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 15px 35px rgba(0,0,0,.05);
+    transition: .35s;
+}
+
+    .motion-card:hover,
+    .count-card:hover,
+    .security-card:hover,
+    .graph-card:hover,
+    .esp-card:hover,
+    .lastmotion-card:hover,
+    .alert-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 45px rgba(79,124,255,.18);
+    }
+
+/* ===========================================
+        MOTION CARD
+=========================================== */
+
+.motion-card {
+    min-height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+    .motion-card h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .motion-card h1 {
+        font-size: 68px;
+        font-weight: 700;
+        color: #35C759;
+        margin-bottom: 15px;
+        text-shadow: 0 0 15px rgba(53,199,89,.20);
+    }
+
+    .motion-card p {
+        color: #8A94A6;
+    }
+
+/* ===========================================
+        PERSON COUNT
+=========================================== */
+
+.count-card {
+    min-height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+    .count-card h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .count-card h1 {
+        font-size: 56px;
+        font-weight: 700;
+        color: #4F7CFF;
+        margin-bottom: 10px;
+    }
+
+    .count-card p {
+        color: #8A94A6;
+    }
+
+/* ===========================================
+        SECURITY CARD
+=========================================== */
+
+.security-card {
+    min-height: 290px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+    .security-card h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .security-card h1 {
+        font-size: 52px;
+        font-weight: 700;
+        color: #35C759;
+        margin-bottom: 10px;
+    }
+
+    .security-card p {
+        color: #8A94A6;
+    }
+
+/* ===========================================
+        GRAPH CARD
+=========================================== */
+
+.graph-card {
+    min-height: 420px;
+}
+
+    .graph-card h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+    .graph-card canvas {
+        width: 100% !important;
+        height: 280px !important;
+    }
+
+/* ===========================================
+        ESP32 CARD
+=========================================== */
+
+.esp-card {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+    .esp-card h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+.status-online {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 30px;
+    background: #35C759;
+    color: #ffffff;
+    font-weight: 600;
+    margin-bottom: 25px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0% {
+        box-shadow: 0 0 0 0 rgba(53,199,89,.45);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(53,199,89,0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(53,199,89,0);
+    }
+}
+
+.esp-card p {
+    font-size: 15px;
+    color: #8A94A6;
+    margin-bottom: 12px;
+}
+
+#lastSync {
+    font-weight: 600;
+    color: #4F7CFF;
+}
+
+/* ===========================================
+        LAST MOTION CARD
+=========================================== */
+
+.lastmotion-card {
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+    .lastmotion-card h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .lastmotion-card h2 {
+        font-size: 42px;
+        font-weight: 700;
+        color: #4F7CFF;
+    }
+
+/* ===========================================
+        ALERT CARD
+=========================================== */
+
+.alert-card {
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+    .alert-card h3 {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .alert-card h2 {
+        font-size: 40px;
+        font-weight: 700;
+        color: #35C759;
+        margin-bottom: 12px;
+    }
+
+    .alert-card p {
+        color: #8A94A6;
+    }
+
+/* ===========================================
+        FOOTER
+=========================================== */
+
+.footer {
+    text-align: center;
+    padding: 45px 0 20px;
+    font-size: 14px;
+    color: #94A3B8;
+    opacity: .75;
+    letter-spacing: .5px;
+    transition: .3s;
+}
+
+    .footer:hover {
+        opacity: 1;
+        letter-spacing: 1px;
+    }
+
+/* ===========================================
+        PREMIUM BACKGROUND
+=========================================== */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    background: rgba(79,124,255,.08);
+    border-radius: 50%;
+    top: -180px;
+    left: -180px;
+    filter: blur(90px);
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    background: rgba(53,199,89,.08);
+    border-radius: 50%;
+    bottom: -180px;
+    right: -180px;
+    filter: blur(90px);
+    z-index: -1;
+}
+
+/* ===========================================
+        CARD ENTRY ANIMATION
+=========================================== */
+
+.motion-card,
+.count-card,
+.security-card,
+.graph-card,
+.esp-card,
+.lastmotion-card,
+.alert-card {
+    animation: fadeUp .8s ease;
+    transform-style: preserve-3d;
+}
+
+@keyframes fadeUp {
+
+    0% {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===========================================
+        PREMIUM HOVER
+=========================================== */
+
+.motion-card:hover {
+    box-shadow: 0 25px 45px rgba(53,199,89,.25);
+}
+
+.count-card:hover {
+    box-shadow: 0 25px 45px rgba(79,124,255,.20);
+}
+
+.security-card:hover {
+    box-shadow: 0 25px 45px rgba(53,199,89,.22);
+}
+
+.graph-card:hover {
+    box-shadow: 0 25px 45px rgba(79,124,255,.18);
+}
+
+.esp-card:hover {
+    box-shadow: 0 25px 45px rgba(53,199,89,.18);
+}
+
+.lastmotion-card:hover {
+    box-shadow: 0 25px 45px rgba(79,124,255,.18);
+}
+
+.alert-card:hover {
+    box-shadow: 0 25px 45px rgba(255,182,72,.22);
+}
+
+/* ===========================================
+        LIVE MOTION GLOW
+=========================================== */
+
+.motion-card h1 {
+    animation: motionGlow 2s infinite alternate;
+}
+
+@keyframes motionGlow {
+
+    0% {
+        text-shadow: 0 0 12px rgba(53,199,89,.20);
+    }
+
+    100% {
+        text-shadow: 0 0 28px rgba(53,199,89,.45), 0 0 45px rgba(53,199,89,.20);
+    }
+}
+
+/* ===========================================
+        COUNTER GLOW
+=========================================== */
+
+.count-card h1 {
+    text-shadow: 0 0 16px rgba(79,124,255,.20);
+}
+
+.security-card h1 {
+    text-shadow: 0 0 16px rgba(53,199,89,.20);
+}
+
+/* ===========================================
+        HERO EFFECT
+=========================================== */
+
+.hero h1 {
+    letter-spacing: .5px;
+}
+
+/* ===========================================
+        CUSTOM SCROLLBAR
+=========================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #EEF2F7;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4F7CFF;
+    border-radius: 30px;
+}
+
+/* ===========================================
+        RESPONSIVE
+=========================================== */
+
+@media(max-width:992px) {
+
+    .motion-card,
+    .count-card,
+    .security-card,
+    .graph-card,
+    .esp-card,
+    .lastmotion-card,
+    .alert-card {
+        margin-bottom: 25px;
+    }
+
+    .hero {
+        text-align: center;
+    }
+}
+
+@media(max-width:768px) {
+
+    .container-fluid {
+        padding: 20px !important;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .motion-card h1 {
+        font-size: 52px;
+    }
+
+    .count-card h1,
+    .security-card h1 {
+        font-size: 40px;
+    }
+
+    .lastmotion-card h2 {
+        font-size: 34px;
+    }
+
+    .alert-card h2 {
+        font-size: 34px;
+    }
+}
+
+/* ===========================================
+        FOOTER
+=========================================== */
+
+.footer {
+    transition: .3s;
+}
+
+    .footer:hover {
+        opacity: 1;
+        letter-spacing: 1px;
+    }
+
+.toast-box {
+    position: fixed;
+    top: 25px;
+    right: -400px;
+    background: #4F7CFF;
+    color: #fff;
+    padding: 15px 22px;
+    border-radius: 16px;
+    font-weight: 600;
+    transition: .4s;
+    z-index: 9999;
+    box-shadow: 0 18px 35px rgba(79,124,255,.25);
+}
+
+    .toast-box.show {
+        right: 25px;
+    }

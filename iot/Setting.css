@@ -1,0 +1,497 @@
+﻿/* ===========================================
+        ASH INNOVATIES
+        SETTINGS MODULE
+=========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins',sans-serif;
+    background: radial-gradient(circle at top left,#EEF4FF 0%,transparent 35%), radial-gradient(circle at bottom right,#F5F3FF 0%,transparent 30%), #F6F8FC;
+    overflow-x: hidden;
+    color: #1F2937;
+}
+
+.container-fluid {
+    max-width: 1450px;
+    margin: auto;
+}
+
+/* ===========================================
+        HERO
+=========================================== */
+
+.hero {
+    margin-bottom: 40px;
+}
+
+    .hero h1 {
+        font-size: 42px;
+        font-weight: 700;
+        background: linear-gradient(90deg,#4F7CFF,#7C3AED);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+        margin-top: 12px;
+        font-size: 16px;
+        color: #8A94A6;
+    }
+
+/* ===========================================
+        SETTING CARD
+=========================================== */
+
+.setting-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 30px;
+    border: 1px solid rgba(255,255,255,.8);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 15px 35px rgba(0,0,0,.05);
+    transition: .35s;
+    min-height: 340px;
+}
+
+    .setting-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 45px rgba(79,124,255,.18);
+    }
+
+    .setting-card h3 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 28px;
+        color: #1F2937;
+    }
+
+/* ===========================================
+        SETTING ITEM
+=========================================== */
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid #EEF2F7;
+}
+
+    .setting-item:last-child {
+        border-bottom: none;
+    }
+
+    .setting-item span {
+        font-size: 16px;
+        font-weight: 500;
+        color: #4B5563;
+    }
+
+/* ===========================================
+        INPUT
+=========================================== */
+
+.form-control {
+    height: 52px;
+    border-radius: 14px;
+    border: 1px solid #D9E2F2;
+    box-shadow: none;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+    .form-control:focus {
+        border-color: #4F7CFF;
+        box-shadow: 0 0 0 4px rgba(79,124,255,.12);
+    }
+
+/* ===========================================
+        BUTTONS
+=========================================== */
+
+.btn {
+    height: 52px;
+    border: none;
+    border-radius: 14px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.btn-primary {
+    background: #4F7CFF;
+}
+
+    .btn-primary:hover {
+        background: #3568F4;
+        transform: translateY(-2px);
+    }
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+}
+/* ===========================================
+        SWITCH TOGGLE
+=========================================== */
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+}
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #D1D5DB;
+    transition: .4s;
+    border-radius: 50px;
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 4px;
+        bottom: 4px;
+        background: #ffffff;
+        transition: .4s;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    }
+
+.switch input:checked + .slider {
+    background: #4F7CFF;
+}
+
+    .switch input:checked + .slider:before {
+        transform: translateX(28px);
+    }
+
+/* ===========================================
+        THEME COLORS
+=========================================== */
+
+.theme-box {
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.theme {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: .35s;
+    border: 4px solid transparent;
+}
+
+    .theme:hover {
+        transform: scale(1.08);
+        border-color: #ffffff;
+        box-shadow: 0 18px 30px rgba(0,0,0,.15);
+    }
+
+.blue {
+    background: #4F7CFF;
+}
+
+.green {
+    background: #35C759;
+}
+
+.purple {
+    background: #7C3AED;
+}
+
+.orange {
+    background: #FF8A00;
+}
+
+/* ===========================================
+        LABEL
+=========================================== */
+
+.setting-card label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6B7280;
+}
+
+/* ===========================================
+        FOOTER
+=========================================== */
+
+.footer {
+    text-align: center;
+    padding: 45px 0 20px;
+    font-size: 14px;
+    color: #94A3B8;
+    opacity: .75;
+    letter-spacing: .5px;
+    transition: .3s;
+}
+
+    .footer:hover {
+        opacity: 1;
+        letter-spacing: 1px;
+    }
+
+/* ===========================================
+        CARD HOVER EFFECT
+=========================================== */
+
+.setting-card:hover h3 {
+    color: #4F7CFF;
+    transition: .3s;
+}
+
+/* ===========================================
+        PREMIUM BACKGROUND GLOW
+=========================================== */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    background: rgba(79,124,255,.08);
+    border-radius: 50%;
+    top: -180px;
+    left: -180px;
+    filter: blur(90px);
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    background: rgba(124,58,237,.08);
+    border-radius: 50%;
+    bottom: -180px;
+    right: -180px;
+    filter: blur(90px);
+    z-index: -1;
+}
+
+/* ===========================================
+        CARD ENTRY ANIMATION
+=========================================== */
+
+.setting-card {
+    animation: fadeUp .8s ease;
+    transform-style: preserve-3d;
+}
+
+@keyframes fadeUp {
+
+    0% {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===========================================
+        HERO
+=========================================== */
+
+.hero h1 {
+    letter-spacing: .5px;
+}
+
+/* ===========================================
+        PREMIUM HOVER
+=========================================== */
+
+.setting-card:hover {
+    box-shadow: 0 25px 45px rgba(79,124,255,.20);
+}
+
+/* ===========================================
+        INPUT ANIMATION
+=========================================== */
+
+.form-control {
+    transition: .30s;
+}
+
+    .form-control:hover {
+        border-color: #4F7CFF;
+    }
+
+/* ===========================================
+        BUTTON EFFECT
+=========================================== */
+
+.btn {
+    transition: .30s;
+}
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(79,124,255,.18);
+    }
+
+/* ===========================================
+        THEME COLOR GLOW
+=========================================== */
+
+.theme {
+    position: relative;
+    overflow: hidden;
+}
+
+    .theme::after {
+        content: "";
+        position: absolute;
+        top: -100%;
+        left: -100%;
+        width: 220%;
+        height: 220%;
+        background: rgba(255,255,255,.18);
+        transform: rotate(25deg);
+        transition: .45s;
+    }
+
+    .theme:hover::after {
+        top: 100%;
+        left: 100%;
+    }
+
+/* ===========================================
+        SWITCH ANIMATION
+=========================================== */
+
+.slider {
+    box-shadow: 0 8px 18px rgba(0,0,0,.08);
+}
+
+.switch:hover .slider {
+    box-shadow: 0 0 15px rgba(79,124,255,.25);
+}
+
+/* ===========================================
+        CUSTOM SCROLLBAR
+=========================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #EEF2F7;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4F7CFF;
+    border-radius: 30px;
+}
+
+/* ===========================================
+        RESPONSIVE
+=========================================== */
+
+@media(max-width:992px) {
+
+    .setting-card {
+        margin-bottom: 25px;
+    }
+
+    .hero {
+        text-align: center;
+    }
+}
+
+@media(max-width:768px) {
+
+    .container-fluid {
+        padding: 20px !important;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .setting-card {
+        padding: 22px;
+    }
+
+    .theme-box {
+        justify-content: center;
+    }
+
+    .theme {
+        width: 60px;
+        height: 60px;
+    }
+
+    .btn {
+        font-size: 15px;
+    }
+}
+
+/* ===========================================
+        FOOTER
+=========================================== */
+
+.footer {
+    transition: .30s;
+}
+
+    .footer:hover {
+        opacity: 1;
+        letter-spacing: 1px;
+    }
+
+.toast-box {
+    position: fixed;
+    top: 25px;
+    right: -350px;
+    background: #4F7CFF;
+    color: #fff;
+    padding: 15px 22px;
+    border-radius: 15px;
+    font-weight: 600;
+    transition: .4s;
+    z-index: 9999;
+    box-shadow: 0 15px 35px rgba(79,124,255,.25);
+}
+
+    .toast-box.show {
+        right: 25px;
+    }
+
+.dark-mode {
+    background: #121826 !important;
+    color: #ffffff !important;
+    transition: .4s;
+}
