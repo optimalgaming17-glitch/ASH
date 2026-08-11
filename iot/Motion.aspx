@@ -158,7 +158,7 @@
                     </h2>
 
                     <p>
-                        Area Secured
+                        Area Secure
 
                     </p>
 
