@@ -74,6 +74,8 @@
     <Content Include="AI.aspx" />
     <Content Include="AI.js" />
     <Content Include="DashBoard.js" />
+    <Content Include="Footer.css" />
+    <Content Include="Images\ChatGPT Image Jul 30, 2026, 11_37_34 PM.png" />
     <Content Include="login.js" />
     <Content Include="Profile.js" />
     <Content Include="Setting.js" />
