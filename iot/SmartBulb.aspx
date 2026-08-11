@@ -189,16 +189,6 @@
 
             </div>
 
-            <footer class="footer mt-5">
-
-                <p>
-                    © 2026 ASH INNOVATIES
-
-                Smart Bulb Module
-
-                </p>
-
-            </footer>
 
         </div>
     </div>

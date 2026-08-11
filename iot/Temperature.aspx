@@ -176,16 +176,7 @@
 
         </div>
 
-        <footer class="footer mt-5">
-
-            <p>
-                © 2026 ASH INNOVATIES
-
-Temperature Monitoring Module
-
-            </p>
-
-        </footer>
+       
 
     </div>
     <script src="Temperature.js"></script>

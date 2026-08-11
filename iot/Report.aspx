@@ -255,14 +255,7 @@
 
         </div>
 
-        <footer class="footer mt-5">
-
-            <p>
-                © 2026 ASH INNOVATIES • Reports Module
-
-            </p>
-
-        </footer>
+       
 
     </div>
     <script src="Report.js"></script>

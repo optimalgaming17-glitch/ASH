@@ -11,7 +11,7 @@ namespace iot
 {
 
 
-    public partial class DashBoard
+    public partial class WebForm5
     {
     }
 }

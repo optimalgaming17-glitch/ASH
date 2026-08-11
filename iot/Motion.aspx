@@ -168,16 +168,7 @@
 
         </div>
 
-        <footer class="footer mt-5">
-
-            <p>
-                © 2026 ASH INNOVATIES
-
-Motion Detection Module
-
-            </p>
-
-        </footer>
+  
 
     </div>
 

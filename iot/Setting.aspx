@@ -186,14 +186,7 @@
 
         </div>
 
-        <footer class="footer mt-5">
-
-            <p>
-                © 2026 ASH INNOVATIES • Settings Module
-
-            </p>
-
-        </footer>
+       
 
     </div>
     <script src="Setting.js"></script>
