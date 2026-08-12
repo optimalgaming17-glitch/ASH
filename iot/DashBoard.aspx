@@ -3,7 +3,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
-     
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -61,9 +60,19 @@
 
    
             <div class="row mt-4 g-4">
-
-                   <button type="button" onclick="enableAuto()">AUTO MODE</button><br />
-                    <p id="modeStatus">AUTO</p>
+              
+                <div class="row">
+                    
+                    <div class="col-md-4 mode">
+                        <button type="button" class="premium-mode-btn" id="mode_button" onclick="enableAuto()">
+                            <i class="bi bi-stars"></i>
+                            <span>Auto Mode</span>
+                         </button>
+                        <span id="modeStatus" class="premium-label">✦ AUTO</span>
+                    </div>
+                  
+                </div>
+                
 
                 <div class="col-lg-3 col-md-6">
 
@@ -128,10 +137,12 @@
 
                         <div>
 
-                            <p>Motion</p>
+                            <p>Motion Status</p>
 
-                                   <h3>Motion Status</h3>
-                                   <span id="pirStatus">Loading...</span>
+                                   <h2 id="pirStatus">Loading...    </h2>
+                                
+                                    <span>Live Detection</span>
+                                    
 
                         </div>
 
@@ -154,7 +165,7 @@
 
                             <h3>💡 Smart Bulb</h3>
 
-                            <div class="badge bg-success">ONLINE</div>
+                            <div class="badge bg-success" id="badge_text">ONLINE</div>
 
                         </div>
 
@@ -183,22 +194,17 @@
 
                         <h3>🤖 AI Assistant</h3>
 
-                        <p>
-                            Everything looks normal.
-
-                    No smoke detected.
-
-                    Temperature is stable.
-
-                    Motion detected recently.
+                        <p id="aiText">
+                            Be smarter with ASH AI.
+                            
+                            Control components and 
+                            
+                            
+                            easily handle them with ASH AI.
 
                         </p>
 
-                        <button class="btn btn-primary w-100">Ask AI  </button>
-
-
-
-
+                        <button class="btn btn-primary w-100"><a style="text-decoration:none;" class="ai" href="AI.aspx"> Ask AI</a>  </button>
 
                     </div>
 
@@ -239,7 +245,6 @@
                     </div>
 
                 </div>
-
                 <div class="col-lg-4">
 
                     <div class="mini-card">

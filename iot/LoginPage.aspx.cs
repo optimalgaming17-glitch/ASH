@@ -28,7 +28,7 @@ namespace iot
             {
                 String useremail = email1.Text.Trim();
 
-                String message = "You have successfully registered in ASHNOVA INNOVATIES......!!!!!!";
+                String message = "Hello,\r\n\r\nWelcome to ASH! 🎉\r\nYour account has been successfully registered.\r\n\r\nYou can now log in to your account and explore all the features available on our platform.\r\n\r\nRegistered Email:"+useremail+"\r\n\r\nThank you for joining us. We’re excited to have you with us!\r\n\r\nBest Regards,\r\nASH Team\r\nSmart. Simple. Connected.";
 
                 if (String.IsNullOrEmpty(useremail))
                 {

@@ -46,68 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fake Smoke Status
     // ==========================
 
-    const smoke = document.querySelector(".smoke h2");
-
-    if (smoke) {
-
-        const smokeStatus = [
-
-            "SAFE",
-
-            "SAFE",
-
-            "SAFE",
-
-            
-
-        ];
-
-        let index = 0;
-
-        setInterval(() => {
-
-            smoke.innerHTML = smokeStatus[index];
-
-            index++;
-
-            if (index >= smokeStatus.length)
-
-                index = 0;
-
-        }, 5000);
-
-    }
-
-    // ==========================
-    // Fake Motion Status
-    // ==========================
-
-    const motion = document.querySelector(".motion h2");
-
-    if (motion) {
-
-        let state = true;
-
-        setInterval(() => {
-
-            motion.innerHTML =
-
-                state ?
-
-                    "Detected"
-
-                    :
-
-                    "No Motion";
-
-            state = !state;
-
-        }, 4000);
-
-    }
-
-});
-
+   
 /* ===========================================
    Animated Counter Function
 ===========================================*/
@@ -142,7 +81,8 @@ function animateCounter(selector, target, suffix) {
 
 const moonBtn = document.querySelector(".bi-moon-fill");
 
-if (moonBtn) {
+    if (moonBtn)
+    {
 
     moonBtn.parentElement.addEventListener("click", function () {
 
@@ -331,129 +271,129 @@ setInterval(updateClock, 1000);
 
 updateClock();
 
-/* ===========================================
-        CHART.JS
-=========================================== */
+    /* ===========================================
+            CHART.JS
+    =========================================== */
 
-const chartCanvas = document.getElementById("tempChart");
+    const chartCanvas = document.getElementById("tempChart");
 
-if (chartCanvas) {
+    if (chartCanvas) {
 
-    new Chart(chartCanvas, {
+        new Chart(chartCanvas, {
 
-        type: "line",
+            type: "line",
 
-        data: {
+            data: {
 
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
 
-            datasets: [
+                datasets: [
 
-                {
+                    {
 
-                    label: "Temperature",
+                        label: "Temperature",
 
-                    data: [24, 26, 27, 29, 30, 28, 29],
+                        data: [24, 26, 27, 29, 30, 28, 29],
 
-                    borderColor: "#4F7CFF",
+                        borderColor: "#4F7CFF",
 
-                    backgroundColor: "rgba(79,124,255,.12)",
+                        backgroundColor: "rgba(79,124,255,.12)",
 
-                    fill: true,
+                        fill: true,
 
-                    tension: .45,
+                        tension: .45,
 
-                    borderWidth: 4,
+                        borderWidth: 4,
 
-                    pointRadius: 5
+                        pointRadius: 5
 
-                },
+                    },
 
-                {
+                    {
 
-                    label: "Humidity",
+                        label: "Humidity",
 
-                    data: [60, 58, 63, 64, 66, 62, 64],
+                        data: [60, 58, 63, 64, 66, 62, 64],
 
-                    borderColor: "#8B7CFF",
+                        borderColor: "#8B7CFF",
 
-                    backgroundColor: "transparent",
+                        backgroundColor: "transparent",
 
-                    fill: false,
+                        fill: false,
 
-                    tension: .45,
+                        tension: .45,
 
-                    borderWidth: 4,
+                        borderWidth: 4,
 
-                    pointRadius: 5
+                        pointRadius: 5
 
-                }
+                    }
 
-            ]
-
-        },
-
-        options: {
-
-            responsive: true,
-
-            plugins: {
-
-                legend: {
-
-                    display: true
-
-                }
+                ]
 
             },
 
-            scales: {
+            options: {
 
-                y: {
+                responsive: true,
 
-                    beginAtZero: false
+                plugins: {
+
+                    legend: {
+
+                        display: true
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: false
+
+                    }
 
                 }
 
             }
 
-        }
-
-    });
-
-}
-
-/* ===========================================
-        AI TYPING EFFECT
-=========================================== */
-
-const aiText = document.querySelector(".ai-card p");
-
-if (aiText) {
-
-    const message = "Everything looks normal. Temperature is stable. ESP32 Connected. No Smoke Detected.";
-
-    let i = 0;
-
-    aiText.innerHTML = "";
-
-    function typing() {
-
-        if (i < message.length) {
-
-            aiText.innerHTML += message.charAt(i);
-
-            i++;
-
-            setTimeout(typing, 22);
-
-        }
+        });
 
     }
 
-    typing();
+    /* ===========================================
+            AI TYPING EFFECT
+    =========================================== */
 
-}
+    const aiText = document.querySelector(".ai-card p");
+
+    if (aiText) {
+
+        const message = "Be smarter with ASH AI.Control components and easily handle them with ASH AI.";
+
+        let i = 0;
+
+        aiText.innerHTML = "";
+
+        function typing() {
+
+            if (i < message.length) {
+
+                aiText.innerHTML += message.charAt(i);
+
+                i++;
+
+                setTimeout(typing, 22);
+
+            }
+
+        }
+
+        typing();
+
+    }
 
 /* ===========================================
       BELL SHAKE
@@ -887,3 +827,27 @@ setInterval(updateSmokeStatus, 1000);
 
 updateSmoke();
 updateSmokeStatus();
+
+ 
+    async function badge_check()
+    {
+
+        try {
+
+            const response = await fetch("http://10.207.67.101/smoke");
+
+          
+            document.getElementById("badge_text").innerHTML = "ONLINE";
+
+        }
+        catch {
+
+            document.getElementById("badge_text").innerHTML = "OFFLINE";
+
+        }
+
+    }
+
+    setInterval(badge_check, 1000);
+
+    badge_check(); 

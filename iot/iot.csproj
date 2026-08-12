@@ -74,6 +74,7 @@
     <Content Include="AI.aspx" />
     <Content Include="AI.js" />
     <Content Include="DashBoard.js" />
+    <Content Include="DashBoard2.js" />
     <Content Include="Footer.css" />
     <Content Include="Images\ChatGPT Image Jul 30, 2026, 11_37_34 PM.png" />
     <Content Include="login.js" />
@@ -93,6 +94,7 @@
     <Content Include="LoginPage.css" />
     <Content Include="Loader.css" />
     <Content Include="DashBoard.css" />
+    <Content Include="DashBoard2.css" />
     <Content Include="Temperature.js" />
     <Content Include="SmartBulb.js" />
     <Content Include="SmartBulb.css" />
