@@ -166,21 +166,23 @@
     background: #f8fbff;
 }
 
-    .email-box input {
-        flex: 1;
-        border: none;
-        outline: none;
-        background: transparent;
-        padding: 0 15px;
-        font-size: 13px;
-        color: #172033;
-    }
+.email-box_input {
+    flex: 1;
+    border: 1px #dce5f0;
+    outline: none;
+    background: transparent;
+    padding: 0 15px;
+    font-size: 13px;
+    color: #172033;
+   
+}
 
-        .email-box input::placeholder {
+        .email-box_input::target-text {
             color: #9aa5b5;
         }
 
-    .email-box button {
+
+    .email-box_button {
         width: 50px;
         border: none;
         background: #1677ff;
@@ -190,10 +192,9 @@
         transition: 0.2s;
     }
 
-        .email-box button:hover {
+        .email-box_button:hover {
             background: #075ed5;
         }
-
 
 /* =========================
    SYSTEM STATUS

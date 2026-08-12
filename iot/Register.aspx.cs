@@ -41,6 +41,7 @@ namespace iot
             {
                 sdr.Read();
                 Session["login"] = sdr.GetValue(0);
+                Session["Email"] = email2.Text.Trim();
                 Response.Redirect("DashBoard.aspx");
 
             }

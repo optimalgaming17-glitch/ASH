@@ -183,8 +183,8 @@
             <h3>STAY CONNECTED</h3>
 
             <div class="email-box">
-                <asp:TextBox runat="server" Textmode="Email" Text="Enter message for us"></asp:TextBox>
-                <button>➤</button>
+                <asp:TextBox runat="server" CssClass="email-box_input" ID="txtEmail" TextMode="SingleLine" Text="Enter message for us"></asp:TextBox>
+                <asp:Button runat="server" cssClass="email-box_button" Text="➤" OnClick="sendMail"></asp:Button>
             </div>
 
             <p>
