@@ -363,9 +363,7 @@ updateClock();
 
     }
 
-    /* ===========================================
-            AI TYPING EFFECT
-    =========================================== */
+   
 
     const aiText = document.querySelector(".ai-card p");
 
@@ -635,219 +633,785 @@ if (deviceCount) {
 console.log("%cASH INNOVATIES", "color:#4F7CFF;font-size:24px;font-weight:bold;");
 console.log("%cSmart Home Dashboard Loaded Successfully", "color:#35C759;font-size:15px;");
 
+    // =====================================================
+    // STATE VARIABLES
+    // =====================================================
+
+    let temperatureAlertActive = false;
+    let smokeAlertActive = false;
+
+    // Recent Activity states
+    let previousPIRStatus = "";
+    let previousBulbStatus = "";
+    let previousSmokeStatus = "";
+    let previousESP32Status = "";
+
+
+    // =====================================================
+    // RECENT ACTIVITIES
+    // =====================================================
+
+    function addActivity(icon, iconColor, message) {
+
+        // Hide "No recent activities"
+        document.getElementById("noActivitiesMessage").style.display = "none";
+
+
+        // Shift old activities down
+        document.getElementById("activity5").innerHTML =
+            document.getElementById("activity4").innerHTML;
+
+        document.getElementById("activity4").innerHTML =
+            document.getElementById("activity3").innerHTML;
+
+        document.getElementById("activity3").innerHTML =
+            document.getElementById("activity2").innerHTML;
+
+        document.getElementById("activity2").innerHTML =
+            document.getElementById("activity1").innerHTML;
+
+
+        // New activity at first row
+        document.getElementById("activity1").innerHTML = `
+        <i class="bi ${icon} ${iconColor}"></i>
+        ${message}
+    `;
+    }
+
+
+
+    // =====================================================
+    // PIR / MOTION
+    // =====================================================
 
     async function updatePIR() {
 
         try {
 
-            const response = await fetch("http://10.207.67.101/motion");
+            const response =
+                await fetch("http://10.207.67.101/motion");
 
-    const data = await response.text();
+            const data = await response.text();
 
-               document.getElementById("pirStatus").innerHTML = data;
+            document.getElementById("pirStatus").innerHTML = data;
 
-           }
-    catch {
 
-        document.getElementById("pirStatus").innerHTML = "ESP32 Offline";
+            // Check only when status changes
+            if (data == "Motion Detected") {
 
-           }
+                if (previousPIRStatus != "detected") {
 
-       }
+                    addActivity(
+                        "bi-person-fill",
+                        "text-warning",
+                        "Motion Detected"
+                    );
 
-   setInterval(updatePIR, 3000);
+                    previousPIRStatus = "detected";
+                }
+
+            }
+            else {
+
+                // If motion becomes normal
+                if (previousPIRStatus == "detected") {
+
+                    addActivity(
+                        "bi-person-fill",
+                        "text-secondary",
+                        "Motion Stopped"
+                    );
+                }
+
+                previousPIRStatus = "normal";
+            }
+
+        }
+        catch {
+
+            document.getElementById("pirStatus").innerHTML =
+                "ESP32 Offline";
+
+        }
+    }
+
+
+    setInterval(updatePIR, 3000);
 
     updatePIR();
 
 
 
-async function bulbON() {
-
-    await fetch("http://10.207.67.101/bulbon");
-    document.getElementById("modeStatus").innerHTML = "MANUAL";
-
-    updateBulb();
-
-}
-
-async function bulbOFF() {
-
-    await fetch("http://10.207.67.101/bulboff");
-    document.getElementById("modeStatus").innerHTML = "MANUAL";
-
-    updateBulb();
-
-}
-
-async function updateBulb() {
-
-    try {
-
-        const response = await fetch("http://10.207.67.101/bulbstatus");
-
-        const data = await response.text();
-
-        document.getElementById("bulbStatus").innerHTML = data;
-
-    }
-    catch {
-
-        document.getElementById("bulbStatus").innerHTML = "ESP32 Offline";
-
-    }
-
-}
-setInterval(updateBulb, 1000);
-
-updateBulb();
-
-async function updateTemperature() {
-
-    try {
-
-        const response = await fetch("http://10.207.67.101/temperature");
-
-        const data = await response.text();
-
-        document.getElementById("tempValue").innerHTML = data + "°C";
-
-    } catch {
-
-        document.getElementById("tempValue").innerHTML = "Offline";
-
-    }
-
-}
-
-setInterval(updateTemperature, 1000);
-
-updateTemperature();
-
-async function updateHumidity() {
-
-    try {
-
-        const response = await fetch("http://10.207.67.101/humidity");
-
-        const data = await response.text();
-
-        document.getElementById("humidityValue").innerHTML = data + "%";
-        document.getElementById("humidityValue1").innerHTML = data + "%";
-
-
-    } catch {
-
-        document.getElementById("humidityValue").innerHTML = "Offline";
-        document.getElementById("humidityValue1").innerHTML = "Offline";
-
-
-    }
-
-}
-
-
-setInterval(updateHumidity, 1000);
-
-updateHumidity();
-
-
-async function enableAuto() {
-
-    try {
-
-        const response = await fetch("http://10.207.67.101/auto");
-
-        document.getElementById("modeStatus").innerHTML = "AUTO";
-        const data = await response.text();
-
-        console.log(data);
-
-        updateBulb();
-        updatePIR();
-
-    }
-    catch {
-
-        alert("ESP32 Offline");
-
-    }
-
-}
-async function updateSmoke() {
-
-    try {
-
-        const response = await fetch("http://10.207.67.101/smoke");
-
-        const data = await response.text();
-
-        document.getElementById("smokeValue").innerHTML = data;
-
-    }
-    catch {
-
-        document.getElementById("smokeValue").innerHTML = "Offline";
-
-    }
-
-}
-
-async function updateSmokeStatus() {
-
-    try {
-
-        const response = await fetch("http://10.207.67.101/smokestatus");
-
-        const data = await response.text();
-
-        document.getElementById("smokeStatus").innerHTML = data;
-
-        if (data == "Smoke Detected") {
-
-            document.getElementById("smokeStatus").style.color = "red";
-
-        }
-        else {
-
-            document.getElementById("smokeStatus").style.color = "limegreen";
-
-        }
-
-    }
-    catch {
-
-        document.getElementById("smokeStatus").innerHTML = "ESP32 Offline";
-
-    }
-
-}
-
-setInterval(updateSmoke, 1000);
-setInterval(updateSmokeStatus, 1000);
-
-updateSmoke();
-updateSmokeStatus();
-
- 
-    async function badge_check()
-    {
+    // =====================================================
+    // BULB ON
+    // =====================================================
+
+    async function bulbON() {
 
         try {
 
-            const response = await fetch("http://10.207.67.101/smoke");
+            await fetch("http://10.207.67.101/bulbon");
 
-          
-            document.getElementById("badge_text").innerHTML = "ONLINE";
+            document.getElementById("modeStatus").innerHTML =
+                "MANUAL";
+
+            updateBulb();
 
         }
         catch {
 
-            document.getElementById("badge_text").innerHTML = "OFFLINE";
+            alert("ESP32 Offline");
+
+        }
+    }
+
+
+
+    // =====================================================
+    // BULB OFF
+    // =====================================================
+
+    async function bulbOFF() {
+
+        try {
+
+            await fetch("http://10.207.67.101/bulboff");
+
+            document.getElementById("modeStatus").innerHTML =
+                "MANUAL";
+
+            updateBulb();
+
+        }
+        catch {
+
+            alert("ESP32 Offline");
+
+        }
+    }
+
+
+
+    // =====================================================
+    // BULB STATUS
+    // =====================================================
+
+    async function updateBulb() {
+
+        try {
+
+            const response =
+                await fetch("http://10.207.67.101/bulbstatus");
+
+            const data = await response.text();
+
+            document.getElementById("bulbStatus").innerHTML =
+                data;
+
+
+            // =============================================
+            // RECENT ACTIVITY
+            // =============================================
+
+            if (data == "ON") {
+
+                if (previousBulbStatus != "ON") {
+
+                    addActivity(
+                        "bi-lightbulb-fill",
+                        "text-warning",
+                        "Bulb Turned ON"
+                    );
+
+                    previousBulbStatus = "ON";
+                }
+
+            }
+            else if (data == "OFF") {
+
+                if (previousBulbStatus != "OFF") {
+
+                    addActivity(
+                        "bi-lightbulb",
+                        "text-secondary",
+                        "Bulb Turned OFF"
+                    );
+
+                    previousBulbStatus = "OFF";
+                }
+            }
+
+        }
+        catch {
+
+            document.getElementById("bulbStatus").innerHTML =
+                "ESP32 Offline";
+
+        }
+    }
+
+
+    setInterval(updateBulb, 1000);
+
+    updateBulb();
+
+
+
+    // =====================================================
+    // ALERT SYSTEM
+    // =====================================================
+
+    function addAlert(title, message, icon) {
+
+        const alertList =
+            document.getElementById("activeAlertsList");
+
+
+        // Remove "No active alerts"
+        const noAlertsMessage =
+            document.getElementById("noAlertsMessage");
+
+        if (noAlertsMessage) {
+            noAlertsMessage.remove();
+        }
+
+
+        const alert = document.createElement("div");
+
+        alert.className =
+            "active-alert critical";
+
+
+        alert.innerHTML = `
+        <div class="active-alert-icon">
+            <i class="bi ${icon}"></i>
+        </div>
+
+        <div class="active-alert-info">
+
+            <strong>${title}</strong>
+
+            <span>${message}</span>
+
+            <small>Just now</small>
+
+        </div>
+    `;
+
+
+        // New alert at top
+        alertList.prepend(alert);
+
+        updateAlertCount();
+    }
+
+
+
+    // =====================================================
+    // UPDATE ALERT COUNT
+    // =====================================================
+
+    function updateAlertCount() {
+
+        const alerts =
+            document.querySelectorAll(
+                "#activeAlertsList .active-alert"
+            );
+
+        document.getElementById("activeAlertCount").innerHTML =
+            alerts.length;
+    }
+
+
+
+    // =====================================================
+    // TEMPERATURE
+    // =====================================================
+
+    async function updateTemperature() {
+
+        try {
+
+            const response =
+                await fetch("http://10.207.67.101/temperature");
+
+            const data = await response.text();
+
+
+            // Display temperature
+            document.getElementById("tempValue").innerHTML =
+                data + "°C";
+
+
+            const temperature =
+                parseFloat(data);
+
+
+
+            // =============================================
+            // TEMPERATURE GRAPH
+            // =============================================
+
+            if (window.temperatureChart) {
+
+                const now = new Date();
+
+                const time =
+                    now.getHours().toString().padStart(2, "0") + ":" +
+                    now.getMinutes().toString().padStart(2, "0") + ":" +
+                    now.getSeconds().toString().padStart(2, "0");
+
+
+                window.temperatureChart.data.labels.push(time);
+
+                window.temperatureChart.data.datasets[0].data.push(
+                    temperature
+                );
+
+
+                // Keep only 20 records
+                if (
+                    window.temperatureChart.data.labels.length > 20
+                ) {
+
+                    window.temperatureChart.data.labels.shift();
+
+                    window.temperatureChart.data.datasets[0].data.shift();
+
+                }
+
+
+                window.temperatureChart.update();
+
+            }
+
+
+
+            // =============================================
+            // TEMPERATURE ALERT
+            // =============================================
+
+            const temperatureLimit = 35;
+
+
+            if (temperature > temperatureLimit) {
+
+                // Alert only once
+                if (!temperatureAlertActive) {
+
+                    addAlert(
+                        "High Temperature",
+                        "Temperature reached " +
+                        temperature.toFixed(1) +
+                        "°C",
+                        "bi-thermometer-high"
+                    );
+
+
+                    // Recent Activity
+                    addActivity(
+                        "bi-thermometer-high",
+                        "text-danger",
+                        "High Temperature Detected"
+                    );
+
+
+                    temperatureAlertActive = true;
+                }
+
+            }
+            else {
+
+                temperatureAlertActive = false;
+
+            }
+
+        }
+        catch {
+
+            document.getElementById("tempValue").innerHTML =
+                "Offline";
 
         }
 
     }
 
+
+    setInterval(updateTemperature, 1000);
+
+    updateTemperature();
+
+
+
+    // =====================================================
+    // HUMIDITY
+    // =====================================================
+
+    async function updateHumidity() {
+
+        try {
+
+            const response =
+                await fetch("http://10.207.67.101/humidity");
+
+            const data = await response.text();
+
+
+            document.getElementById("humidityValue").innerHTML =
+                data + "%";
+
+            document.getElementById("humidityValue1").innerHTML =
+                data + "%";
+
+        }
+        catch {
+
+            document.getElementById("humidityValue").innerHTML =
+                "Offline";
+
+            document.getElementById("humidityValue1").innerHTML =
+                "Offline";
+
+        }
+
+    }
+
+
+    setInterval(updateHumidity, 1000);
+
+    updateHumidity();
+
+
+
+    // =====================================================
+    // AUTO MODE
+    // =====================================================
+
+    async function enableAuto() {
+
+        try {
+
+            const response =
+                await fetch("http://10.207.67.101/auto");
+
+
+            document.getElementById("modeStatus").innerHTML =
+                "AUTO";
+
+
+            const data = await response.text();
+
+            console.log(data);
+
+
+            updateBulb();
+
+            updatePIR();
+
+        }
+        catch {
+
+            alert("ESP32 Offline");
+
+        }
+
+    }
+
+
+
+    // =====================================================
+    // SMOKE VALUE
+    // =====================================================
+
+    async function updateSmoke() {
+
+        try {
+
+            const response =
+                await fetch("http://10.207.67.101/smoke");
+
+            const data = await response.text();
+
+
+            // Display smoke value
+            document.getElementById("smokeValue").innerHTML =
+                data;
+
+
+            const smoke =
+                parseFloat(data);
+
+
+            // =============================================
+            // SMOKE ALERT
+            // =============================================
+
+            const smokeLimit = 800;
+
+
+            if (smoke > smokeLimit) {
+
+                // Alert only once
+                if (!smokeAlertActive) {
+
+                    addAlert(
+                        "High Smoke Detected",
+                        "Smoke level is above the safe limit",
+                        "bi-exclamation-triangle-fill"
+                    );
+
+
+                    // Recent Activity
+                    addActivity(
+                        "bi-exclamation-triangle-fill",
+                        "text-danger",
+                        "High Smoke Detected"
+                    );
+
+
+                    smokeAlertActive = true;
+                }
+
+            }
+            else {
+
+                smokeAlertActive = false;
+
+            }
+
+        }
+        catch {
+
+            document.getElementById("smokeValue").innerHTML =
+                "Offline";
+
+        }
+
+    }
+
+
+    setInterval(updateSmoke, 1000);
+
+    updateSmoke();
+
+
+
+    // =====================================================
+    // SMOKE STATUS
+    // =====================================================
+
+    async function updateSmokeStatus() {
+
+        try {
+
+            const response =
+                await fetch("http://10.207.67.101/smokestatus");
+
+            const data = await response.text();
+
+
+            document.getElementById("smokeStatus").innerHTML =
+                data;
+
+
+            if (data == "Smoke Detected") {
+
+                document.getElementById("smokeStatus").style.color =
+                    "red";
+
+
+                // Recent Activity only when status changes
+                if (previousSmokeStatus != "detected") {
+
+                    addActivity(
+                        "bi-exclamation-triangle-fill",
+                        "text-danger",
+                        "Smoke Detected"
+                    );
+
+                    previousSmokeStatus = "detected";
+                }
+
+            }
+            else {
+
+                document.getElementById("smokeStatus").style.color =
+                    "limegreen";
+
+
+                if (previousSmokeStatus == "detected") {
+
+                    addActivity(
+                        "bi-cloud-check-fill",
+                        "text-primary",
+                        "Smoke Level Normal"
+                    );
+                }
+
+
+                previousSmokeStatus = "normal";
+            }
+
+        }
+        catch {
+
+            document.getElementById("smokeStatus").innerHTML =
+                "ESP32 Offline";
+
+        }
+
+    }
+
+
+    setInterval(updateSmokeStatus, 1000);
+
+    updateSmokeStatus();
+
+    async function refreshDevice() {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const online = await badge_check();
+
+        await Promise.all([
+            updateTemperature(),
+            updateHumidity(),
+            updateSmoke(),
+            updateSmokeStatus(),
+            updatePIR(),
+            updateBulb()
+        ]);
+
+        if (online) {
+
+            Swal.fire({
+                icon: "success",
+                title: "Device Refreshed",
+                text: "ESP32 data has been updated successfully.",
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+        }
+        else {
+
+            Swal.fire({
+                icon: "error",
+                title: "ESP32 Offline",
+                text: "Device could not be refreshed."
+            });
+
+        }
+    }
+
+    // =====================================================
+    // ESP32 ONLINE / OFFLINE BADGE
+    // =====================================================
+
+    // =====================================================
+    // ESP32 DEVICE STATUS
+    // =====================================================
+
+    let previousESP32Status = "";
+
+    async function badge_check() {
+
+        try {
+
+            const response = await fetch(
+                "http://10.207.67.101/smoke"
+            );
+
+            // ESP32 Connected
+            document.getElementById("refresh_status").innerHTML =
+                "🟢 Connected";
+
+            refresh_status.classList.remove("status-offline");
+            refresh_status.classList.add("status-online");
+
+            document.getElementById("badge_text").innerHTML =
+                "ONLINE";
+
+            document.getElementById("wifiStatus").innerHTML =
+                "WIFI :Connected";
+
+            document.getElementById("ipAddress").innerHTML =
+                "IP :10.207.67.101";
+
+            document.getElementById("lastUpdate").innerHTML =
+                "Just now";
+
+
+            // Recent Activity
+            if (previousESP32Status !== "online") {
+
+                addActivity(
+                    "bi-wifi",
+                    "text-success",
+                    "ESP32 Connected"
+                );
+
+                previousESP32Status = "online";
+            }
+
+            return true;
+
+        }
+        catch {
+
+            // ESP32 Disconnected
+            document.getElementById("refresh_status").innerHTML =
+                "🔴 Disconnected";
+
+            refresh_status.classList.remove("status-online");
+            refresh_status.classList.add("status-offline");
+          
+
+            document.getElementById("badge_text").innerHTML =
+                "OFFLINE";
+
+            document.getElementById("wifiStatus").innerHTML =
+                "WIFI :Disconnected";
+
+            document.getElementById("ipAddress").innerHTML =
+                "Unavailable";
+
+            document.getElementById("lastUpdate").innerHTML =
+                "Unavailable";
+
+
+            // Recent Activity
+            if (previousESP32Status === "online") {
+
+                addActivity(
+                    "bi-wifi-off",
+                    "text-danger",
+                    "ESP32 Disconnected"
+                );
+            }
+
+            previousESP32Status = "offline";
+
+            return false;
+        }
+    }
+
+
+    // Check every second
     setInterval(badge_check, 1000);
 
-    badge_check(); 
+    // Check immediately when page loads
+    badge_check();
+
+    setInterval(badge_check, 1000);
+    updateAlertCount();
+
+    badge_check();
+
+
+    // =====================================================
+    // INITIAL CALLS
+    // =====================================================
+
+    

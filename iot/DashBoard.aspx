@@ -2,10 +2,9 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
 
     <header class="topbar">
 
@@ -194,7 +193,7 @@
 
                         <h3>🤖 AI Assistant</h3>
 
-                        <p id="aiText">
+                        <p>
                             Be smarter with ASH AI.
                             
                             Control components and 
@@ -214,110 +213,118 @@
 
             <!-- ================= GRAPH SECTION ================= -->
 
-            <div class="row mt-4">
+    <div class="row mt-4">
 
-                <div class="col-lg-8">
+        <div class="col-lg-8">
 
-                    <div class="graph-card">
+            <div class="temperature-analysis-card">
 
-                        <div class="graph-header">
+                <!-- HEADER -->
+                <div class="temperature-card-header">
 
-                            <h3>Temperature Analytics</h3>
+                    <div>
+                        <h3>Temperature Analysis</h3>
+                        <p>Real-time temperature monitoring</p>
+                    </div>
 
-                            <select>
+                    <select id="temperatureRange">
+                        <option value="today">Today</option>
+                        <option value="7days">Last 7 Days</option>
+                        <option value="30days">Last 30 Days</option>
+                    </select>
 
-                                <option>Today</option>
+                </div>
 
-                                <option>Weekly</option>
 
-                                <option>Monthly</option>
+                <!-- CURRENT TEMPERATURE -->
+                <div class="current-temperature">
 
-                            </select>
+                    <span>Current Temperature</span>
 
-                        </div>
+                    <div class="temperature-main-value">
 
-                        <div class="graph-placeholder">
+                        <strong id="currentTemperature">28.6°C
+            </strong>
 
-                            <canvas id="tempChart"></canvas>
-
-                        </div>
+                        <span id="temperatureStatus">● Normal
+            </span>
 
                     </div>
 
                 </div>
-                <div class="col-lg-4">
 
-                    <div class="mini-card">
 
-                        <h4>Humidity</h4>
+                <!-- GRAPH -->
+                <div class="temperature-chart-wrapper">
 
-                        <h2 id="humidityValue1"> </h2>
-
-                        <p>Average Today</p>
-
-                        <div class="progress">
-
-                            <div class="progress-bar bg-primary"
-                                style="width: 64%">
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <canvas id="temperatureChart"></canvas>
 
                 </div>
 
             </div>
+        </div>
+                <div class="col-lg-4">
 
+                   <!-- ================= ACTIVE ALERTS ================= -->
+
+<div class="active-alerts-card">
+
+    <div class="active-alerts-header">
+
+        <div>
+            <h2>Active Alerts</h2>
+            <p>Critical issues requiring attention</p>
+        </div>
+
+        <span class="active-alert-count" id="activeAlertCount">0</span>
+
+    </div>
+
+
+    <div class="active-alerts-list" id="activeAlertsList">
+
+        <div id="noAlertsMessage" class="no-alerts-message">
+            <h1>No active alerts</h1>
+        </div>
+    </div>
+
+</div>
+         </div>  
+        </div>
             <!-- ================= NOTIFICATION PANEL ================= -->
 
             <div class="row mt-4">
 
-                <div class="col-lg-6">
+    <div class="col-lg-6">
 
-                    <div class="notification-card">
+        <div class="notification-card">
 
-                        <h3>Notifications</h3>
+            <h3>Recent Activities</h3>
 
-                        <ul>
+            <ul id="recentActivitiesList">
 
-                            <li>
+                <!-- Shown when there are no activities -->
+                <li id="noActivitiesMessage">
+                    <h2>No recent activities.</h2>
+                </li>
 
-                                <i class="bi bi-check-circle-fill text-success"></i>
+                <!-- Activity rows -->
+                <li id="activity1"></li>
 
-                                Bulb Turned ON
+                <li id="activity2"></li>
 
-                            </li>
+                <li id="activity3"></li>
 
-                            <li>
+                <li id="activity4"></li>
 
-                                <i class="bi bi-cloud-check-fill text-primary"></i>
+                <li id="activity5"></li>
 
-                                Smoke Level Normal
+            </ul>
 
-                            </li>
+        </div>
 
-                            <li>
+    </div>
 
-                                <i class="bi bi-person-fill text-warning"></i>
-
-                                Motion Detected
-
-                            </li>
-
-                            <li>
-
-                                <i class="bi bi-wifi text-success"></i>
-
-                                ESP32 Connected
-
-                            </li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
 
                 <div class="col-lg-6">
 
@@ -325,20 +332,20 @@
 
                         <h3>ESP32 Device</h3>
 
-                        <div class="status-online">🟢 Connected</div>
+                        <div id="refresh_status" class="status-online">🟢 Connected</div>
 
-
+                        
                         <div class="esp-info">
 
-                            <p>WiFi :Connected</p>
+                            <p id="wifiStatus">WiFi :Connected</p>
 
-                            <p>IP :192.168.1.25</p>
+                            <p id="ipAddress">IP :192.168.1.25</p>
 
-                            <p>Last Update :2 sec ago</p>
+                            <p id="lastUpdate">Last Update :2 sec ago</p>
 
                         </div>
 
-                        <button class="btn btn-success w-100">
+                        <button  class="btn btn-success w-100" onclick="badge_check()">
                             Refresh Device
 
                         </button>

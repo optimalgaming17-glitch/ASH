@@ -174,15 +174,6 @@
 
         </div>
 
-        <footer class="footer mt-5">
-
-            <p>
-                © 2026 ASH INNOVATIES
-
-Smoke Detection Module
-
-            </p>
-
-        </footer>
+       </div>
         <script src="Smoke.js"></script>
 </asp:Content>
