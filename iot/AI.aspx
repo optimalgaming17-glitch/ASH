@@ -72,7 +72,7 @@ How can I help you today?
 
             <div class="col-lg-3">
 
-                <div class="command-card" onclick="bulbON()">
+                <div class="command-card">
                     💡 Turn ON Bulb
 
                 </div>

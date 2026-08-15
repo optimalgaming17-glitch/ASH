@@ -26,63 +26,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
         typingAnimation();
 
-        setTimeout(function () {
+         generateReply(text);
 
-            generateReply(text);
+       
 
-        }, 800);
     }
 
 
     /* ===========================================
-            BUTTON
+            SEND BUTTON
     =========================================== */
 
-    sendBtn.addEventListener("click", sendMessage);
+    if (sendBtn) {
+
+        sendBtn.addEventListener("click", sendMessage);
+
+    }
 
 
     /* ===========================================
             ENTER KEY
     =========================================== */
 
-    input.addEventListener("keypress", function (e) {
+    if (input) {
 
-        if (e.key === "Enter") {
+        input.addEventListener("keypress", function (e) {
 
-            e.preventDefault();
+            if (e.key === "Enter") {
 
-            sendMessage();
+                e.preventDefault();
 
-        }
+                sendMessage();
 
-    });
-
-
-    /* ===========================================
-            QUICK COMMANDS
-    =========================================== */
-
-    document.querySelectorAll(".command-card").forEach(function (card) {
-
-        card.addEventListener("click", function () {
-
-            const text = this.innerText;
-
-            addUserMessage(text);
-
-            typingAnimation();
-
-            setTimeout(function () {
-
-                generateReply(text);
-
-            }, 800);
+            }
 
         });
 
-    });
+    }
 
 });
+
 
 
 /* ===========================================
@@ -106,6 +89,7 @@ function addUserMessage(message) {
 }
 
 
+
 /* ===========================================
         AI MESSAGE
 =========================================== */
@@ -127,6 +111,7 @@ function addAIMessage(message) {
 }
 
 
+
 /* ===========================================
         TYPING ANIMATION
 =========================================== */
@@ -135,13 +120,19 @@ function typingAnimation() {
 
     const chat = document.getElementById("chatBody");
 
+    const oldTyping = document.getElementById("typing");
+
+    if (oldTyping) {
+        oldTyping.remove();
+    }
+
     const typing = document.createElement("div");
 
     typing.className = "ai-message";
 
     typing.id = "typing";
 
-    typing.innerHTML = "🤖 Typing...";
+    typing.innerHTML = "🤖 Checking...";
 
     chat.appendChild(typing);
 
@@ -150,9 +141,152 @@ function typingAnimation() {
 }
 
 
+
+/* ===========================================
+        BULB ON
+=========================================== */
+
+async function bulbON() {
+
+   
+
+        const response = await fetchESP32(
+            "http://10.207.67.101/bulbon"
+        );
+
+    if (response== null)
+    {
+        return null;
+    }
+
+    return response;
+
+}
+
+
+
+/* ===========================================
+        BULB OFF
+=========================================== */
+
+async function bulbOFF() {
+
+    const response = await fetchESP32(
+        "http://10.207.67.101/bulbon"
+    );
+
+    if (response == null) {
+        return null;
+    }
+
+    return response;
+}
+
+
+
+/* ===========================================
+        GET TEMPERATURE
+=========================================== */
+
+async function getTemperature() {
+
+    const data = await fetchESP32(
+        "http://10.207.67.101/temperature"
+    );
+
+    if (data === null) {
+        return null;
+    }
+
+    return data;
+}
+
+
+// =====================================================
+// HUMIDITY
+// =====================================================
+
+async function getHumidity() {
+
+    const data = await fetchESP32(
+        "http://10.207.67.101/humidity"
+    );
+
+    if (data === null) {
+        return null;
+    }
+
+    return data;
+}
+
+/* ===========================================
+        GET SMOKE STATUS
+=========================================== */
+
+async function getSmokeStatus() {
+
+    const data = await fetchESP32(
+        "http://10.207.67.101/smokestatus"
+    );
+
+    if (data === null) {
+        return null;
+    }
+
+    return data;
+}
+
+
+/* ===========================================
+        GET MOTION STATUS
+=========================================== */
+
+async function getMotionStatus() {
+
+    const data = await fetchESP32(
+        "http://10.207.67.101/motion"
+    );
+
+    if (data === null) {
+        return null;
+    }
+
+    return data;
+}
+
+async function fetchESP32(url) {
+
+    const controller = new AbortController();
+
+    const timeout = setTimeout(function () {
+        controller.abort();
+    }, 2000);
+
+    try {
+
+        const response = await fetch(url, {
+            signal: controller.signal
+        });
+
+        clearTimeout(timeout);
+
+        if (!response.ok) {
+            throw new Error("Request failed");
+        }
+
+        return await response.text();
+
+    }
+    catch (error) {
+
+        clearTimeout(timeout);
+
+        return null;
+    }
+}
+
 /* ===========================================
         AI BRAIN
-        LIVE ESP32 DATA
 =========================================== */
 
 async function generateReply(message) {
@@ -165,210 +299,323 @@ async function generateReply(message) {
 
     }
 
+
     message = message.toLowerCase().trim();
 
+    let reply = "";
 
-    try {
 
-        /* =====================================
-                BULB ON
-        ===================================== */
 
-        if (
-            message.includes("turn on bulb") ||
-            message.includes("bulb on")
-        ) {
+    /* ===========================================
+            TURN ON BULB
+    =========================================== */
 
-            await fetch(
-                "http://10.207.67.101/bulbon"
-            );
+    if (
+        message.includes("turn on bulb") ||
+        message.includes("bulb on") ||
+        message.includes("turn on the bulb")
+    ) {
 
-            addAIMessage(
-                "💡 Bulb Turned ON Successfully."
-            );
+        const success = await bulbON();
 
-            return;
+        if (success!=null) {
+
+            reply =
+                "💡 Bulb Turned ON Successfully.";
+
+        }
+        else {
+
+            reply =
+                "🔴 ESP32 Offline. Bulb could not be turned ON.";
+
         }
 
+    }
 
-        /* =====================================
-                BULB OFF
-        ===================================== */
 
-        if (
-            message.includes("turn off bulb") ||
-            message.includes("bulb off")
-        ) {
 
-            await fetch(
-                "http://10.207.67.101/bulboff"
-            );
+    /* ===========================================
+            TURN OFF BULB
+    =========================================== */
 
-            addAIMessage(
-                "💡 Bulb Turned OFF Successfully."
-            );
+    else if (
+        message.includes("turn off bulb") ||
+        message.includes("bulb off") ||
+        message.includes("turn off the bulb")
+    ) {
 
-            return;
+        const success = await bulbOFF();
+
+        if (success!=null) {
+
+            reply =
+                "💡 Bulb Turned OFF Successfully.";
+
+        }
+        else {
+
+            reply =
+                "🔴 ESP32 Offline. Bulb could not be turned OFF.";
+
         }
 
+    }
 
-        /* =====================================
-                BULB STATUS
-        ===================================== */
 
-        if (message.includes("bulb")) {
 
-            const response =
-                await fetch(
-                    "http://10.207.67.101/bulbstatus"
-                );
+    /* ===========================================
+            BULB STATUS
+    =========================================== */
+
+    else if (
+        message.includes("bulb") ||
+        message.includes("bulb status")
+    ) {
+
+        try {
+
+            const response = await fetch(
+                "http://10.207.67.101/bulbstatus"
+            );
+
+            if (!response.ok) {
+
+                throw new Error("Bulb status failed");
+
+            }
 
             const data = await response.text();
 
-            addAIMessage(
-                "💡 Smart Bulb Status : " + data
-            );
+            reply =
+                "💡 Smart Bulb Status : " + data;
 
-            return;
+        }
+        catch {
+
+            reply =
+                "🔴 ESP32 Offline. Bulb status is unavailable.";
+
         }
 
+    }
 
-        /* =====================================
-                TEMPERATURE
-        ===================================== */
 
-        if (message.includes("temperature")) {
 
-            const response =
-                await fetch(
-                    "http://10.207.67.101/temperature"
-                );
+    /* ===========================================
+            TEMPERATURE
+    =========================================== */
 
-            const data = await response.text();
+    else if (
+        message.includes("temperature") ||
+        message.includes("temp")
+    ) {
 
-            addAIMessage(
+        const temperature = await getTemperature();
+
+        if (temperature !== null) {
+
+            reply =
                 "🌡 Current Temperature : " +
-                data +
-                "°C"
-            );
+                temperature +
+                "°C";
 
-            return;
+        }
+        else {
+
+            reply =
+                "🔴 ESP32 Offline. Temperature is unavailable.";
+
         }
 
+    }
 
-        /* =====================================
-                SMOKE
-        ===================================== */
 
-        if (message.includes("smoke")) {
 
-            const response =
-                await fetch(
-                    "http://10.207.67.101/smokestatus"
-                );
+    /* ===========================================
+            SMOKE
+    =========================================== */
 
-            const data = await response.text();
+    else if (
+        message.includes("smoke") ||
+        message.includes("smoke status")
+    ) {
 
-            addAIMessage(
+        const smoke = await getSmokeStatus();
+
+        if (smoke !== null) {
+
+            reply =
                 "💨 Smoke Status : " +
-                data
-            );
+                smoke;
 
-            return;
+        }
+        else {
+
+            reply =
+                "🔴 ESP32 Offline. Smoke status is unavailable.";
+
         }
 
+    }
 
-        /* =====================================
-                MOTION
-        ===================================== */
 
-        if (message.includes("motion")) {
 
-            const response =
-                await fetch(
-                    "http://10.207.67.101/motion"
-                );
+    /* ===========================================
+            MOTION
+    =========================================== */
 
-            const data = await response.text();
+    else if (
+        message.includes("motion") ||
+        message.includes("motion status")
+    ) {
 
-            addAIMessage(
+        const motion = await getMotionStatus();
+
+        if (motion !== null) {
+
+            reply =
                 "🚶 Motion Status : " +
-                data
-            );
+                motion;
 
-            return;
         }
+        else {
 
+            reply =
+                "🔴 ESP32 Offline. Motion status is unavailable.";
 
-        /* =====================================
-                REPORT
-        ===================================== */
-
-        if (message.includes("report")) {
-
-            addAIMessage(
-                "📊 Reports Module Ready."
-            );
-
-            return;
         }
-
-
-        /* =====================================
-                GREETING
-        ===================================== */
-
-        if (
-            message.includes("hello") ||
-            message.includes("hi") ||
-            message.includes("hey")
-        ) {
-
-            addAIMessage(
-                "👋 Hello! How can I help you today?"
-            );
-
-            return;
-        }
-
-
-        /* =====================================
-                DEFAULT
-        ===================================== */
-
-        addAIMessage(
-            "🤖 Sorry, I didn't understand. Please try another command."
-        );
 
     }
-    catch (error) {
 
-        console.error("ESP32 Error:", error);
 
-        addAIMessage(
-            "🔴 ESP32 is offline. Please check the device connection."
-        );
+
+    /* ===========================================
+            GREETING
+    =========================================== */
+
+    else if (
+        message.includes("hello") ||
+        message.includes("hi") ||
+        message.includes("hey")
+    ) {
+
+        reply =
+            "👋 Hello! How can I help you with your smart home?";
 
     }
+
+
+
+    /* ===========================================
+            REPORT
+    =========================================== */
+
+    else if (message.includes("report")) {
+
+        reply =
+            "📊 Reports module is ready.";
+
+    }
+
+    else if (message.includes("contact"))
+    {
+        reply =
+            "📞 <b>ASH NOVA Contacts</b><br><br>" +
+
+            "<div>👤 Sarthak Koli (ASH Member) - 9623476467</div>" +
+            "<div>👤 Harsh More (ASH Member) - 9960246489</div>" +
+            "<div>👤 Aryan Tripude (ASH Member) - 9284762332</div>";
+    }
+    }
+
+    else if (message.includes("humidity"))
+    {
+
+        const humidity = await getHumidity();
+
+        if (humidity !== null) {
+
+            reply =
+                "🌡 Current Humidity : " +
+                humidity +
+                "%";
+
+        }
+        else {
+
+            reply =
+                "🔴 ESP32 Offline. Humidity is unavailable.";
+
+        }
+
+
+    }
+    /* ===========================================
+            DEFAULT
+    =========================================== */
+
+    else {
+
+        reply =
+            "🤖 Sorry, I didn't understand. Try asking about Temperature, Smoke, Motion or Bulb.";
+
+    }
+
+
+
+    /* ===========================================
+            SHOW AI RESPONSE
+    =========================================== */
+
+    setTimeout(function () {
+
+        addAIMessage(reply);
+
+    }, 250);
 
 }
 
 
+
 /* ===========================================
-        WELCOME TOAST
+        QUICK COMMANDS
+=========================================== */
+
+document.querySelectorAll(".command-card").forEach(function (card) {
+
+    card.addEventListener("click", function () {
+
+        const text = this.innerText.trim();
+
+        addUserMessage(text);
+
+        typingAnimation();
+
+            generateReply(text);
+
+       
+
+    });
+
+});
+
+
+
+/* ===========================================
+        WELCOME MESSAGE
 =========================================== */
 
 setTimeout(function () {
 
-    showToast(
-        "🤖 ASH AI Assistant Ready"
-    );
+    showToast("🤖 ASH AI Assistant Ready");
 
 }, 1500);
 
 
+
 /* ===========================================
-        ONLINE STATUS
+        AI ONLINE STATUS
 =========================================== */
 
 const aiStatus =
@@ -379,10 +626,11 @@ if (aiStatus) {
     setInterval(function () {
 
         aiStatus.innerHTML =
-            "🟡 Thinking...";
+            "🟡 Checking...";
 
         aiStatus.style.background =
             "#FFB648";
+
 
         setTimeout(function () {
 
@@ -399,14 +647,13 @@ if (aiStatus) {
 }
 
 
+
 /* ===========================================
-        RANDOM RESPONSE TIME
+        RESPONSE TIME
 =========================================== */
 
 const responseCard =
-    document.querySelectorAll(
-        ".status-card h2"
-    );
+    document.querySelectorAll(".status-card h2");
 
 if (responseCard.length > 1) {
 
@@ -427,32 +674,6 @@ if (responseCard.length > 1) {
 }
 
 
-/* ===========================================
-        CHAT ANIMATION
-=========================================== */
-
-setInterval(function () {
-
-    document
-        .querySelectorAll(
-            ".ai-message,.user-message"
-        )
-        .forEach(function (msg) {
-
-            msg.style.transform =
-                "scale(1.01)";
-
-            setTimeout(function () {
-
-                msg.style.transform =
-                    "scale(1)";
-
-            }, 250);
-
-        });
-
-}, 4000);
-
 
 /* ===========================================
         VOICE BUTTON
@@ -465,6 +686,7 @@ function startVoiceRecognition() {
     );
 
 }
+
 
 
 /* ===========================================
@@ -489,6 +711,7 @@ setTimeout(function () {
 }, 4500);
 
 
+
 /* ===========================================
         CONSOLE BRANDING
 =========================================== */
@@ -502,6 +725,7 @@ console.log(
     "%cAI Assistant Loaded Successfully",
     "color:#35C759;font-size:14px;"
 );
+
 
 
 /* ===========================================
@@ -521,11 +745,13 @@ function showToast(message) {
 
     document.body.appendChild(toast);
 
+
     setTimeout(function () {
 
         toast.classList.add("show");
 
     }, 100);
+
 
     setTimeout(function () {
 
