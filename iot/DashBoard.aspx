@@ -46,7 +46,7 @@
             <section class="hero">
 
                 <h2>Welcome Back
-                            <span>Harsh 👋</span>
+                            <span>👋</span>
                 </h2>
 
                 <p>

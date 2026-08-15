@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const input = document.getElementById("userInput");
     const sendBtn = document.getElementById("sendBtn");
 
+
     /* ===========================================
             SEND MESSAGE
     =========================================== */
@@ -29,15 +30,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
             generateReply(text);
 
-        }, 1200);
-
+        }, 800);
     }
+
 
     /* ===========================================
             BUTTON
     =========================================== */
 
     sendBtn.addEventListener("click", sendMessage);
+
 
     /* ===========================================
             ENTER KEY
@@ -55,7 +57,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+
+    /* ===========================================
+            QUICK COMMANDS
+    =========================================== */
+
+    document.querySelectorAll(".command-card").forEach(function (card) {
+
+        card.addEventListener("click", function () {
+
+            const text = this.innerText;
+
+            addUserMessage(text);
+
+            typingAnimation();
+
+            setTimeout(function () {
+
+                generateReply(text);
+
+            }, 800);
+
+        });
+
+    });
+
 });
+
 
 /* ===========================================
         USER MESSAGE
@@ -77,6 +105,7 @@ function addUserMessage(message) {
 
 }
 
+
 /* ===========================================
         AI MESSAGE
 =========================================== */
@@ -96,6 +125,7 @@ function addAIMessage(message) {
     chat.scrollTop = chat.scrollHeight;
 
 }
+
 
 /* ===========================================
         TYPING ANIMATION
@@ -119,11 +149,13 @@ function typingAnimation() {
 
 }
 
+
 /* ===========================================
         AI BRAIN
+        LIVE ESP32 DATA
 =========================================== */
 
-function generateReply(message) {
+async function generateReply(message) {
 
     const typing = document.getElementById("typing");
 
@@ -133,161 +165,232 @@ function generateReply(message) {
 
     }
 
-    message = message.toLowerCase();
+    message = message.toLowerCase().trim();
 
-    let reply = "";
 
-    /* ===========================================
-            BULB
-    =========================================== */
+    try {
 
-    if (message.includes("bulb")) {
+        /* =====================================
+                BULB ON
+        ===================================== */
 
-        reply = "💡 Smart Bulb Status : ON";
+        if (
+            message.includes("turn on bulb") ||
+            message.includes("bulb on")
+        ) {
+
+            await fetch(
+                "http://10.207.67.101/bulbon"
+            );
+
+            addAIMessage(
+                "💡 Bulb Turned ON Successfully."
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                BULB OFF
+        ===================================== */
+
+        if (
+            message.includes("turn off bulb") ||
+            message.includes("bulb off")
+        ) {
+
+            await fetch(
+                "http://10.207.67.101/bulboff"
+            );
+
+            addAIMessage(
+                "💡 Bulb Turned OFF Successfully."
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                BULB STATUS
+        ===================================== */
+
+        if (message.includes("bulb")) {
+
+            const response =
+                await fetch(
+                    "http://10.207.67.101/bulbstatus"
+                );
+
+            const data = await response.text();
+
+            addAIMessage(
+                "💡 Smart Bulb Status : " + data
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                TEMPERATURE
+        ===================================== */
+
+        if (message.includes("temperature")) {
+
+            const response =
+                await fetch(
+                    "http://10.207.67.101/temperature"
+                );
+
+            const data = await response.text();
+
+            addAIMessage(
+                "🌡 Current Temperature : " +
+                data +
+                "°C"
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                SMOKE
+        ===================================== */
+
+        if (message.includes("smoke")) {
+
+            const response =
+                await fetch(
+                    "http://10.207.67.101/smokestatus"
+                );
+
+            const data = await response.text();
+
+            addAIMessage(
+                "💨 Smoke Status : " +
+                data
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                MOTION
+        ===================================== */
+
+        if (message.includes("motion")) {
+
+            const response =
+                await fetch(
+                    "http://10.207.67.101/motion"
+                );
+
+            const data = await response.text();
+
+            addAIMessage(
+                "🚶 Motion Status : " +
+                data
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                REPORT
+        ===================================== */
+
+        if (message.includes("report")) {
+
+            addAIMessage(
+                "📊 Reports Module Ready."
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                GREETING
+        ===================================== */
+
+        if (
+            message.includes("hello") ||
+            message.includes("hi") ||
+            message.includes("hey")
+        ) {
+
+            addAIMessage(
+                "👋 Hello! How can I help you today?"
+            );
+
+            return;
+        }
+
+
+        /* =====================================
+                DEFAULT
+        ===================================== */
+
+        addAIMessage(
+            "🤖 Sorry, I didn't understand. Please try another command."
+        );
 
     }
+    catch (error) {
 
-    else if (message.includes("turn on bulb")) {
+        console.error("ESP32 Error:", error);
 
-        reply = "💡 Bulb Turned ON Successfully.";
-
-    }
-
-    else if (message.includes("turn off bulb")) {
-
-        reply = "💡 Bulb Turned OFF Successfully.";
+        addAIMessage(
+            "🔴 ESP32 is offline. Please check the device connection."
+        );
 
     }
-
-    /* ===========================================
-            TEMPERATURE
-    =========================================== */
-
-    else if (message.includes("temperature")) {
-
-        reply = "🌡 Current Temperature : 28°C";
-
-    }
-
-    /* ===========================================
-            SMOKE
-    =========================================== */
-
-    else if (message.includes("smoke")) {
-
-        reply = "💨 Smoke Level : SAFE";
-
-    }
-
-    /* ===========================================
-            MOTION
-    =========================================== */
-
-    else if (message.includes("motion")) {
-
-        reply = "🚶 No Motion Detected";
-
-    }
-
-    /* ===========================================
-            REPORT
-    =========================================== */
-
-    else if (message.includes("report")) {
-
-        reply = "📊 Reports Module Ready.";
-
-    }
-
-    /* ===========================================
-            GREETING
-    =========================================== */
-
-    else if (
-
-        message.includes("hello") ||
-
-        message.includes("hi") ||
-
-        message.includes("hey")
-
-    ) {
-
-        reply = "👋 Hello Harsh! How can I help you today?";
-
-    }
-
-    /* ===========================================
-            DEFAULT
-    =========================================== */
-
-    else {
-
-        reply = "🤖 Sorry, I didn't understand. Please try another command.";
-
-    }
-
-    setTimeout(function () {
-
-        addAIMessage(reply);
-
-    }, 250);
 
 }
 
-/* ===========================================
-        QUICK COMMANDS
-=========================================== */
-
-document.querySelectorAll(".command-card").forEach(function (card) {
-
-    card.addEventListener("click", function () {
-
-        const text = this.innerText;
-
-        addUserMessage(text);
-
-        typingAnimation();
-
-        setTimeout(function () {
-
-            generateReply(text);
-
-        }, 1000);
-
-    });
-
-});
 
 /* ===========================================
-WELCOME MESSAGE
+        WELCOME TOAST
 =========================================== */
 
 setTimeout(function () {
 
-    showToast("🤖 ASH AI Assistant Ready");
+    showToast(
+        "🤖 ASH AI Assistant Ready"
+    );
 
 }, 1500);
+
 
 /* ===========================================
         ONLINE STATUS
 =========================================== */
 
-const aiStatus = document.querySelector(".status-online");
+const aiStatus =
+    document.querySelector(".status-online");
 
 if (aiStatus) {
 
     setInterval(function () {
 
-        aiStatus.innerHTML = "🟡 Thinking...";
+        aiStatus.innerHTML =
+            "🟡 Thinking...";
 
-        aiStatus.style.background = "#FFB648";
+        aiStatus.style.background =
+            "#FFB648";
 
         setTimeout(function () {
 
-            aiStatus.innerHTML = "🟢 Connected";
+            aiStatus.innerHTML =
+                "🟢 Connected";
 
-            aiStatus.style.background = "#35C759";
+            aiStatus.style.background =
+                "#35C759";
 
         }, 1200);
 
@@ -295,25 +398,34 @@ if (aiStatus) {
 
 }
 
+
 /* ===========================================
-        RANDOM AI STATUS
+        RANDOM RESPONSE TIME
 =========================================== */
 
-const responseCard = document.querySelectorAll(".status-card h2");
+const responseCard =
+    document.querySelectorAll(
+        ".status-card h2"
+    );
 
 if (responseCard.length > 1) {
 
-    const responseTime = responseCard[1];
+    const responseTime =
+        responseCard[1];
 
     setInterval(function () {
 
-        const time = (Math.random() * 0.8 + 0.2).toFixed(2);
+        const time =
+            (Math.random() * 0.8 + 0.2)
+                .toFixed(2);
 
-        responseTime.innerHTML = time + " sec";
+        responseTime.innerHTML =
+            time + " sec";
 
     }, 5000);
 
 }
+
 
 /* ===========================================
         CHAT ANIMATION
@@ -321,29 +433,39 @@ if (responseCard.length > 1) {
 
 setInterval(function () {
 
-    document.querySelectorAll(".ai-message,.user-message").forEach(function (msg) {
+    document
+        .querySelectorAll(
+            ".ai-message,.user-message"
+        )
+        .forEach(function (msg) {
 
-        msg.style.transform = "scale(1.01)";
+            msg.style.transform =
+                "scale(1.01)";
 
-        setTimeout(function () {
+            setTimeout(function () {
 
-            msg.style.transform = "scale(1)";
+                msg.style.transform =
+                    "scale(1)";
 
-        }, 250);
+            }, 250);
 
-    });
+        });
 
 }, 4000);
 
+
 /* ===========================================
-        VOICE BUTTON READY
+        VOICE BUTTON
 =========================================== */
 
 function startVoiceRecognition() {
 
-    showToast("🎤 Voice Assistant Coming Soon");
+    showToast(
+        "🎤 Voice Assistant Coming Soon"
+    );
 
 }
+
 
 /* ===========================================
         AUTO GREETING
@@ -351,35 +473,36 @@ function startVoiceRecognition() {
 
 setTimeout(function () {
 
-    addAIMessage("💙 Welcome to ASH INNOVATIES AI Assistant.");
+    addAIMessage(
+        "💙 Welcome to ASH INNOVATIES AI Assistant."
+    );
 
 }, 2500);
 
+
 setTimeout(function () {
 
-    addAIMessage("⚡ You can ask about Temperature, Motion, Smoke or Smart Bulb.");
+    addAIMessage(
+        "⚡ You can ask about Temperature, Motion, Smoke or Smart Bulb."
+    );
 
 }, 4500);
+
 
 /* ===========================================
         CONSOLE BRANDING
 =========================================== */
 
 console.log(
-
     "%cASH INNOVATIES",
-
     "color:#4F7CFF;font-size:22px;font-weight:bold;"
-
 );
 
 console.log(
-
     "%cAI Assistant Loaded Successfully",
-
     "color:#35C759;font-size:14px;"
-
 );
+
 
 /* ===========================================
         TOAST
@@ -387,11 +510,14 @@ console.log(
 
 function showToast(message) {
 
-    const toast = document.createElement("div");
+    const toast =
+        document.createElement("div");
 
-    toast.className = "toast-box";
+    toast.className =
+        "toast-box";
 
-    toast.innerHTML = message;
+    toast.innerHTML =
+        message;
 
     document.body.appendChild(toast);
 

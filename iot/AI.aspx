@@ -41,7 +41,7 @@
             <div class="chat-body" id="chatBody">
 
                 <div class="ai-message">
-                    👋 Hello Harsh!
+                    👋 Hello!
 
 How can I help you today?
 
@@ -72,7 +72,7 @@ How can I help you today?
 
             <div class="col-lg-3">
 
-                <div class="command-card">
+                <div class="command-card" onclick="bulbON()">
                     💡 Turn ON Bulb
 
                 </div>
@@ -143,16 +143,7 @@ How can I help you today?
 
         </div>
 
-        <footer class="footer mt-5">
-
-            <p>
-                © 2026 ASH INNOVATIES
-
-AI Assistant Module
-
-            </p>
-
-        </footer>
+      
 
     </div>
     <script src="AI.js"></script>

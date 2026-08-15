@@ -942,6 +942,7 @@ console.log("%cSmart Home Dashboard Loaded Successfully", "color:#35C759;font-si
             document.getElementById("tempValue").innerHTML =
                 data + "°C";
 
+            document.getElementById("currentTemperature").innerHTML = data + "°C";
 
             const temperature =
                 parseFloat(data);
@@ -1056,21 +1057,20 @@ console.log("%cSmart Home Dashboard Loaded Successfully", "color:#35C759;font-si
 
             const data = await response.text();
 
+            console.log(data);
 
             document.getElementById("humidityValue").innerHTML =
                 data + "%";
 
-            document.getElementById("humidityValue1").innerHTML =
-                data + "%";
-
+           
         }
         catch {
 
+            console.log("Error");
+
             document.getElementById("humidityValue").innerHTML =
                 "Offline";
 
-            document.getElementById("humidityValue1").innerHTML =
-                "Offline";
 
         }
 
@@ -1313,8 +1313,6 @@ console.log("%cSmart Home Dashboard Loaded Successfully", "color:#35C759;font-si
     // ESP32 DEVICE STATUS
     // =====================================================
 
-    let previousESP32Status = "";
-
     async function badge_check() {
 
         try {
@@ -1409,9 +1407,4 @@ console.log("%cSmart Home Dashboard Loaded Successfully", "color:#35C759;font-si
 
     badge_check();
 
-
-    // =====================================================
-    // INITIAL CALLS
-    // =====================================================
-
-    
+});
